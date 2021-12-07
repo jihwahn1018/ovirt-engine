@@ -1,6 +1,10 @@
 # ovirt-engine global ignore list
 ###########################
 
+#jihwan-test
+###########################
+prefix/
+
 # mvn folders
 ###########################
 target
