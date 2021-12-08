@@ -1665,6 +1665,9 @@ public interface ApplicationConstants extends CommonApplicationConstants {
 
     String assignTagsUser();
 
+    // jihwan
+    String createNewUser();
+
     String userUser();
 
     String inheritedFromUser();

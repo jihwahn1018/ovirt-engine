@@ -47,6 +47,16 @@ public class UserActionPanelPresenterWidget extends ActionPanelPresenterWidget<V
                 return getModel().getAssignTagsCommand();
             }
         });
+	//jihwan
+	
+	addActionButton(new WebAdminButtonDefinition<Void, DbUser>(constants.createNewUser()) {
+            @Override
+            protected UICommand resolveCommand() {
+                //return getModel().getAssignTagsCommand();
+		return null;
+            }
+        });
+	
     }
 
     public WebAdminButtonDefinition<Void, DbUser> getNewButtonDefinition() {
