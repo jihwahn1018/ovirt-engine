@@ -206,6 +206,7 @@ public abstract class OvfOvaWriter extends OvfWriter {
         case 1008:
         case 1009:
         case 2003:
+        case 2006:
             return 80; // RHEL x64
         case 1001:
         case 2001:
