@@ -3,7 +3,7 @@ name: repository-deployment
 on: 
   workflow_dispatch:
   push: 
-    branches: [supervm-main, supervm-releases/**]
+    branches: [supervm-main, develop, develop-cc, supervm-releases/**]
 jobs:
   build:
     runs-on: self-hosted
@@ -20,6 +20,8 @@ jobs:
             RELEASE=$(echo $GITHUB_REF | awk 'BEGIN { FS = "/" } ; { print $4 }')
             git checkout ${BRANCH}/${RELEASE}
             echo ::set-output name=RELEASE::${RELEASE}
+          elif [ ${BRANCH} == 'develop' ] || [ ${BRANCH} == 'develop-cc' ]; then
+            git checkout ${BRANCH}
           fi
           IS_MERGE=false
           if [ `git rev-list --max-count=1 HEAD` == `git rev-list --merges --max-count=1 HEAD` ]; then
@@ -46,6 +48,8 @@ jobs:
           if [ ${{ steps.vars.outputs.BRANCH }} == 'supervm-releases' ]; then
             sed -i "s#activeDeadlineSeconds:.*#activeDeadlineSeconds: 9000#g" ${{ steps.vars.outputs.JOB_FILE }}
             sed -i "s#{{ OVIRT_REPO }}#http://172.21.7.2/supervm/"${{ steps.vars.outputs.RELEASE }}"-rc/prolinux/8/arch/x86_64/#g" ${{ steps.vars.outputs.JOB_FILE }}
+          elif [ ${{ steps.vars.outputs.BRANCH }} == 'develop' ] || [ ${{ steps.vars.outputs.BRANCH }} == 'develop-cc' ]; then
+            sed -i "s#{{ OVIRT_REPO }}#http://172.21.7.2/supervm/"${{ steps.vars.outputs.BRANCH }}"/prolinux/8/arch/x86_64/#g" ${{ steps.vars.outputs.JOB_FILE }}
           else
             sed -i "s#{{ OVIRT_REPO }}#http://172.21.7.2/supervm/main/prolinux/8/arch/x86_64/#g" ${{ steps.vars.outputs.JOB_FILE }}
           fi
@@ -77,6 +81,8 @@ jobs:
           DOWNLOAD_DST=/var/www/html/supervm/main/prolinux/8/arch/x86_64
           if [ ${{ steps.vars.outputs.BRANCH }} == 'supervm-releases' ]; then
             DOWNLOAD_DST=/var/www/html/supervm/${{ steps.vars.outputs.RELEASE }}-rc/prolinux/8/arch/x86_64
+          elif [ ${{ steps.vars.outputs.BRANCH }} == 'develop' ] || [ ${{ steps.vars.outputs.BRANCH }} == 'develop-cc' ]; then
+            DOWNLOAD_DST=/var/www/html/supervm/${{ steps.vars.outputs.BRANCH }}/prolinux/8/arch/x86_64
           fi
           DOWNLOAD_SRC=http://172.21.7.2/github/ovirt-engine/commits/${{ steps.vars.outputs.COMMIT }}/
           if [ ${{ steps.vars.outputs.IS_MERGE }} == 'true' ]; then
