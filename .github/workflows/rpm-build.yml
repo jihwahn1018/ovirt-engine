@@ -2,7 +2,7 @@ name: rpm-build
 
 on:
   pull_request:
-    branches: [supervm-main, supervm-releases/**]
+    branches: [supervm-main, develop, develop-cc, supervm-releases/**]
   
 jobs:
   build:
@@ -31,6 +31,8 @@ jobs:
           sed -i "s#{{ TARGET_BRANCH }}#"${BRANCH}"#g" ${{ steps.vars.outputs.JOB_FILE }}
           if [ ${BRANCH} == 'supervm-main' ]; then
             sed -i "s#{{ OVIRT_REPO }}#http://172.21.7.2/supervm/main/prolinux/8/arch/x86_64/#g" ${{ steps.vars.outputs.JOB_FILE }}
+          elif [ ${BRANCH} == 'develop' ] || [ ${BRANCH} == 'develop-cc' ]; then
+            sed -i "s#{{ OVIRT_REPO }}#http://172.21.7.2/supervm/"${BRANCH}"/prolinux/8/arch/x86_64/#g" ${{ steps.vars.outputs.JOB_FILE }}
           else
             RELEASE=$(echo $GITHUB_BASE_REF | awk 'BEGIN { FS = "/" } ; { print $2 }')
             sed -i "s#activeDeadlineSeconds:.*#activeDeadlineSeconds: 9000#g" ${{ steps.vars.outputs.JOB_FILE }}
