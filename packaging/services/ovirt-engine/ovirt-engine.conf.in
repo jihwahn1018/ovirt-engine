@@ -494,7 +494,7 @@ SSO_MAX_ALLOWED_MISSING_UNIQUE_CLIENTS=2
 SSO_MAX_MISSING_CLIENT_REFRESH_ATTEMPTS_PER_MINUTE=5
 
 # The maximal allowed number of sessions per user, where -1 indicates that no limit has been set
-ENGINE_MAX_USER_SESSIONS=-1
+ENGINE_MAX_USER_SESSIONS=1
 
 #
 # Comma separated list of supported versions of the API. When the user
