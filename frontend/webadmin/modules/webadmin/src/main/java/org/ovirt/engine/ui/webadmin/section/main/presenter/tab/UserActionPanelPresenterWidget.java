@@ -28,6 +28,12 @@ public class UserActionPanelPresenterWidget extends ActionPanelPresenterWidget<V
 
     @Override
     protected void initializeButtons() {
+        addActionButton(new WebAdminButtonDefinition<Void, DbUser>(constants.createNewUser()) {
+            @Override
+            protected UICommand resolveCommand() {
+                return null;
+            }
+        });
         newButtonDefinition = new WebAdminButtonDefinition<Void, DbUser>(constants.addUser()) {
             @Override
             protected UICommand resolveCommand() {

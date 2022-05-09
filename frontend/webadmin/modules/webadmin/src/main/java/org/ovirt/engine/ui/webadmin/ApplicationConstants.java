@@ -1672,6 +1672,9 @@ public interface ApplicationConstants extends CommonApplicationConstants {
 
     String removeUser();
 
+    //user create
+    String createNewUser();
+
     String assignTagsUser();
 
     String userUser();
